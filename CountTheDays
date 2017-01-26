@@ -6,13 +6,17 @@
 
 public class CountTheDays {
    public static void main(String args[]) {
-     long day0 = Long.parseLong(args[0]);
-     long month0 = Long.parseLong(args[1]);
-     long year0 = Long.parseLong(args[2]);
-     long day1 = Long.parseLong(args[3]);
-     long month1 = Long.parseLong(args[4]);
-     long year1 = Long.parseLong(args[5]);
-     daysBetween(day0, month0, year0, day1, month1, year1);
+     if(args.length != 6) {
+       System.out.println("Please input two dates consisting of three numbers each");
+     } else {
+       long day0 = Long.parseLong(args[0]);
+       long month0 = Long.parseLong(args[1]);
+       long year0 = Long.parseLong(args[2]);
+       long day1 = Long.parseLong(args[3]);
+       long month1 = Long.parseLong(args[4]);
+       long year1 = Long.parseLong(args[5]);
+       daysBetween(day0, month0, year0, day1, month1, year1);
+     }
    }
 
    public static boolean isLeapYear(long year) {
