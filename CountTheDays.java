@@ -4,17 +4,13 @@
    Last Modified: 1/25/2017
    Purpose: Code is able to return various values when given sets of dates */
 
+import java.util.*;
+   
 public class CountTheDays {
    public static void main(String args[]) {
-     long day0 = Long.parseLong(args[0]);
-     long month0 = Long.parseLong(args[1]);
-     long year0 = Long.parseLong(args[2]);
-     long day1 = Long.parseLong(args[3]);
-     long month1 = Long.parseLong(args[4]);
-     long year1 = Long.parseLong(args[5]);
-     daysBetween(day0, month0, year0, day1, month1, year1);
+      daysBetween(10, 22, 2014, 1, 26, 2017);
    }
-
+   
    public static boolean isLeapYear(long year) {
       if(year % 4 != 0){
          //System.out.println("Sorry, " + year + " is not a leap year");
@@ -30,7 +26,7 @@ public class CountTheDays {
          return true;
       }
    }
-
+   
    public static long daysInMonth(long month, long year) {
       boolean leapYear = isLeapYear(year);
       if(month == 2) {
@@ -50,10 +46,10 @@ public class CountTheDays {
       } else {
          long numberOfDays = 31;
          //System.out.println(month + ", " + year + " has " + numberOfDays + " days");
-         return numberOfDays;
+         return numberOfDays; 
       }
    }
-
+   
    public static boolean isDateValid(long month, long day, long year) {
        //Eliminates out of range answers immediately before spending time
        //checking in depth solutions
@@ -78,7 +74,7 @@ public class CountTheDays {
             //System.out.println(month + " " + " " + day + " " + year + " Valid date");
             return true;
          }
-       }
+       } 
        //30 day months
         else if(month == 4 || month ==  5 || month ==  9 || month ==  11) {
          if(day <=30) {
@@ -95,9 +91,9 @@ public class CountTheDays {
        }
        //System.out.println(month + " " + " " + day + " " + year + " Not a valid date");
        return false;
-    }
-
-    public static long daysBetween (long month0, long day0, long year0, long month1, long day1, long year1) {
+    } 
+    
+   public static long daysBetween (long month0, long day0, long year0, long month1, long day1, long year1) {
       if(isDateValid(month0, day0, year0) == false) {
          //System.out.println("Please input two valid dates");
          return 0;
@@ -128,13 +124,14 @@ public class CountTheDays {
       //Also calculates the number of days in each month and adds them to a tally
       for(long i = smallerYear; i <= biggerYear; i++) {
          if(i == smallerYear) {
-            if(year0 == year1 && month0 == month1) {
-               monthDays = monthDays + Math.abs(day0-day1);
+            if(year0==year1 && month0 == month1){
+               monthDays = monthDays + Math.abs(day0 - day1);
                System.out.println("There are " + monthDays + " days between " + month0 + "/" + day0 + "/" + year0 + " and " + month1 + "/" + day1 + "/" + year1);
                return monthDays;
-            }
-            for(long j = smallerMonth + 1; j < 13; j++) {
-               monthDays = monthDays + daysInMonth(j,i);
+            } else {
+               for(long j = smallerMonth + 1; j < 13; j++) { 
+                  monthDays = monthDays + daysInMonth(j,i);
+               }
             }
          } else if(i == biggerYear) {
             for(long j = 1; j < smallerMonth; j++) {
@@ -144,7 +141,7 @@ public class CountTheDays {
             for(long j = 1; j < 13; j++) {
                monthDays = monthDays + daysInMonth(j,i);
             }
-         }
+         }        
       }
       bonusDays = daysInMonth(month0, year0) - day0 + day1;
       if(year1 == year0 && month1 == month0 && day1 == day0) {
@@ -153,8 +150,8 @@ public class CountTheDays {
       }
       numberOfDays = monthDays + bonusDays;
       System.out.println("There are " + numberOfDays + " days between " + month0 + "/" + day0 + "/" + year0 + " and " + month1 + "/" + day1 + "/" + year1);
-      return numberOfDays;
+      return numberOfDays; 
     }
-
+      
 
 }
