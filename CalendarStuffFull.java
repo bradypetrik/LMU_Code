@@ -71,16 +71,12 @@ public class CalendarStuffFull {
    */
    public static boolean isLeapYear( long year ) {
       if(year % 4 != 0){
-         //System.out.println("Sorry, " + year + " is not a leap year");
          return false;
       } else if(year % 100 != 0) {
-         //System.out.println("Heyo, " + year + " is a leap year!");
          return true;
       } else if(year % 400 != 0) {
-         //System.out.println("Sorry, " + year + " is not a leap year");
          return false;
       } else {
-         //System.out.println("Heyo, " + year + " is a leap year!");
       return true;
       }
    }
@@ -98,20 +94,16 @@ public class CalendarStuffFull {
       if(month == 2) {
          if(leapYear == true){
             long numberOfDays = 29;
-            //System.out.println(month + ", " + year + " has " + numberOfDays + " days");
             return numberOfDays;
          } else {
             long numberOfDays = 28;
-            //System.out.println(month + ", " + year + " has " + numberOfDays + " days");
             return numberOfDays;
          }
       } else if(month == 4 || month ==  5 || month ==  9 || month ==  11) {
          long numberOfDays = 30;
-         //System.out.println(month + ", " + year + " has " + numberOfDays + " days");
          return numberOfDays;
       } else {
          long numberOfDays = 31;
-         //System.out.println(month + ", " + year + " has " + numberOfDays + " days");
          return numberOfDays;
       }
    }
@@ -161,42 +153,34 @@ public class CalendarStuffFull {
        //Eliminates out of range answers immediately before spending time
        //checking in depth solutions
        if(month <= 0 || month >= 13) {
-         //System.out.println(month + " " + " " + day + " " + year + " Not a valid date");
          return false;
        } if (day <= 0 || day >= 32) {
-         //System.out.println(month + " " + " " + day + " " + year + " Not a valid date");
          return false;
        } if (year < 0) {
-         //System.out.println(month + " " + " " + day + " " + year + " Not a valid date");
          return false;
        }
        //February
        if(month == 2) {
          if(isLeapYear(year) == true) {
             if(day <= 29) {
-               //System.out.println(month + " " + " " + day + " " + year + " Valid date");
                return true;
             }
          } else if(day <=28) {
-            //System.out.println(month + " " + " " + day + " " + year + " Valid date");
             return true;
          }
        }
        //30 day months
         else if(month == 4 || month ==  5 || month ==  9 || month ==  11) {
          if(day <=30) {
-            //System.out.println(month + " " + " " + day + " " + year + " Valid date");
             return true;
          }
        }
        //31 day months
        else {
          if(day <= 31) {
-            //System.out.println(month + " " + " " + day + " " + year + " Valid date");
             return true;
          }
        }
-       //System.out.println(month + " " + " " + day + " " + year + " Not a valid date");
       return false;
    }
 
@@ -234,11 +218,9 @@ public class CalendarStuffFull {
    */
    public static long daysBetween( long month0, long day0, long year0, long month1, long day1, long year1 ) {
       if(isDateValid(month0, day0, year0) == false) {
-         //System.out.println("Please input two valid dates");
          return 0;
       }
       if(isDateValid(month1, day1, year1) == false) {
-         //System.out.println("Please input two valid dates");
          return 0;
       }
       long numberOfDays = 0;
