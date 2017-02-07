@@ -1,0 +1,19 @@
+         for(int i = 1; i < evenStevens.length(); i++) {
+            int omitIndex = 100000;
+            for(int j = 1; j < evenStevens.length(); j++) {
+               int trueTally = 0;
+               if(evenStevens.charAt(i) == evenStevens.charAt(j) && i != j) {
+                  trueTally++;
+               }
+               if(trueTally > 0) {
+                  omitIndex = j;
+               }
+               //Checks that charAt(i) is not at the omitted index, that charAt(i) and charAt(j) are not
+               //the same letter, and that the charAt(i) has not already been added to the string
+               //Perhaps redundant, but covers all possibilities
+               if(omitIndex != j && evenStevens.charAt(i) == evenStevens.charAt(j) && 
+                  evenStevens.charAt(i-1) != evenStevens.charAt(i)) {
+                  noDupes += evenStevens.charAt(i); 
+               } 
+            }
+         }
