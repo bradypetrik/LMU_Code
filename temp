@@ -3,11 +3,7 @@
       String tempDupes = new String();    
       for(int i = 0; i < 1; i++) {
          for(int j = 0; j < evenStevens.length(); j++) {
-            int trueTally = 0;
-            if(evenStevens.charAt(i) == evenStevens.charAt(j) && i != j) {
-               trueTally++;
-            }
-            if(trueTally < 1) {
+            if(evenStevens.charAt(i) != evenStevens.charAt(j) || i == j) {
                tempDupes += evenStevens.charAt(j);
             }
          }
