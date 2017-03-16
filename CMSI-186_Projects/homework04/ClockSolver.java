@@ -10,8 +10,6 @@ import java.util.Scanner;
    
 public class ClockSolver {
 
-   public static int hours = 12;
-   public static int minutes = 0;
    public static double angle = 45.0;
    public static double timeSlice = 60.0;
    public static Clock testClock = new Clock();
@@ -45,7 +43,6 @@ public class ClockSolver {
       double minutesAngle = 0.0;
       double totalAngle = 0.0;
       for(int i = 0; i < TOTAL_TIME; i++) {
-         testClock.tick();
          if(testClock.getHours() == 12) {
             break;
          }
@@ -62,6 +59,7 @@ public class ClockSolver {
                }
             }
          }
+         testClock.tick();
       }     
    }
 }
