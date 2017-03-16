@@ -15,7 +15,7 @@ public class ClockSolver {
    public static double angle = 45.0;
    public static double timeSlice = 60.0;
    public static Clock testClock = new Clock();
-   public static int totalTime = 43200;
+   public static final int TOTAL_TIME = 43200;
    public static final Scanner console = new Scanner(System.in);
    
    public static void main(String[] args) {
@@ -23,16 +23,16 @@ public class ClockSolver {
       System.out.println("Please input an angle to run the Clock Solver (in degrees)");
       s = console.nextDouble();
       angle = s;
-      while(s <= 0) {
-         System.out.println("Please input a valid angle");
+      while(s <= 0 || s > 360) {
+         System.out.println("Please input a valid angle (greater than 0 and less than 360 degrees)");
          s = console.nextDouble();
          angle = s;
       }
       System.out.println("Now input a time slice to run the Clock Solver (in seconds)");
       s = console.nextDouble();
       timeSlice = s;
-      while(s <= 0) {
-         System.out.println("Please input a valid time slice");
+      while(s <= 0 || s > TOTAL_TIME) {
+         System.out.println("Please input a valid time slice (greater than 0 and less than 43200)");
          s = console.nextDouble();
          timeSlice = s;
       }
@@ -44,27 +44,12 @@ public class ClockSolver {
       double hoursAngle = 0.0;
       double minutesAngle = 0.0;
       double totalAngle = 0.0;
-      for(int i = 0; i < totalTime; i++) {
+      for(int i = 0; i < TOTAL_TIME; i++) {
          testClock.tick();
          if(testClock.getHours() == 12) {
             break;
          }
-         if(timeSlice >= 1 && (i*60) % timeSlice == 0) {
-            for(double j = 0.0; j < 60; j+=timeSlice) {
-               hoursAngle = testClock.getHoursAngle();
-               minutesAngle = testClock.getMinutesAngle();
-               totalAngle = minutesAngle - hoursAngle;
-               if(minutesAngle < hoursAngle) {
-                  totalAngle = hoursAngle - minutesAngle;
-               }
-               if(Math.abs(totalAngle - angle) <= 5) {
-                  System.out.println(testClock.toString());
-               }
-            }
-         }
-         //this else statement ensures that, if a time slice is less than one, it will run
-         //the appropriate number of times
-         else {
+         if((timeSlice >= 1 && (i*60) % timeSlice == 0) || timeSlice < 1) {
             for(double j = 0.0; j < 60; j+=timeSlice) {
                hoursAngle = testClock.getHoursAngle();
                minutesAngle = testClock.getMinutesAngle();
