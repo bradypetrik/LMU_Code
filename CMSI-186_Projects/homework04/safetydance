@@ -43,15 +43,14 @@ public class ClockSolver {
       double totalAngle = 0.0;
       for(int i = 0; i < totalTime; i++) {
          testClock.tick();
-         //Has the clock tick for every i value, but only sets values when the time slice has passed
-         if((i*60) % timeSlice == 0) {
-         //fix this variable so it doesnt only work for 60 seconds
+         if(testClock.getHours() == 12) {
+            break;
+         }
+
+         for(double j = 0.0; j < 60; j+=timeSlice) {
             hoursAngle = testClock.getHoursAngle();
             minutesAngle = testClock.getMinutesAngle();
             totalAngle = minutesAngle - hoursAngle;
-            if(testClock.getHours() == 12) {
-               break;
-            }
             //accounts for reverse angles, not just dependent on the hour hand as the base line for the angle
             //also solves issue of continuing output once minutes pass 60
             if(minutesAngle < hoursAngle) {
