@@ -57,7 +57,7 @@ public class ClockSolver {
                if(minutesAngle < hoursAngle) {
                   totalAngle = hoursAngle - minutesAngle;
                }
-               if(Math.abs(totalAngle - angle) <= 5) {
+               if(Math.abs(totalAngle - angle) <= 3) {
                   System.out.println(testClock.toString());
                }
             }
