@@ -1,0 +1,123 @@
+/* Brady Petrik
+   CMSI 186-02
+   homework06 - GinormousInt
+   Last Modified: 
+   Purpose:   */
+   
+public class GinormousInt {
+   
+   public String value = new String();
+   
+   public static void main(String[] args) {
+     GinormousInt tester1 = new GinormousInt("123456");
+     tester1.equals("123456");
+     tester1.equals("164029");
+     tester1.equals("3432");
+     tester1.toString();
+     tester1.getValueAt(4);
+     tester1.reverseString();
+     
+   }
+   
+   public GinormousInt(String input) {
+      value = input;
+   }
+   
+   public GinormousInt() {
+      value = "";
+   }
+   
+   public int getValueAt(int pos) {
+      if(pos > value.length() || pos < 0) {
+         throw new IndexOutOfBoundsException("Your input index is not contained within the Ginormous Int");
+      }
+      String indexVal = this.value.substring(pos, pos+1);
+      int output = Integer.parseInt(indexVal);
+      if(indexVal == "-") {
+         return Integer.parseInt(this.value.substring(pos+1, pos+2));
+      }
+      if(value.substring(0,1) != "-") {
+         System.out.println(output);
+         return output;
+      } else {
+         System.out.println("-" + output);
+         return (output * -1);
+      }
+   }
+   
+   public String getStringAt(int pos) {
+      String output = value.substring(pos, pos+1);
+      return output;
+   }
+   
+   public int getLength() {
+      return value.length();
+   }
+   
+   public String toString() {
+      String GinormIntString = this.value;
+      System.out.println(GinormIntString);
+      return GinormIntString;
+   }
+   
+   public String reverseString() {
+      String output = new String();
+      for(int i = this.getLength()-1; i >= 0; i--) {
+         output += this.getStringAt(i);
+      }
+      return output;
+   }
+   
+   public boolean equals(String input) {
+      if(value.length() != input.length()) {
+         System.out.println("They ain't the same!");
+         return false;
+      } else {
+         for(int i = 0; i < value.length(); i++) {
+            if(value.charAt(i) != input.charAt(i)) {
+               System.out.println("They ain't the same!");
+               return false;
+            }
+         }
+      }
+      System.out.println("Theys is the same!");
+      return true;
+   }
+   
+   public boolean biggerSmaller(GinormousInt inputVal) {
+      //returns true if the original is bigger than the inputVal
+      //returns false if the inputVal is bigger than the original
+      GinormousInt bigger = new GinormousInt();
+      GinormousInt smaller = new GinormousInt();
+      if(inputVal.getLength() > this.getLength()) {
+         return false;
+      } else if(this.getLength() > inputVal.getLength()) {
+         return true;
+      } else {
+         for(int i = 0; i < inputVal.getLength(); i++) {
+            if(inputVal.getValueAt(i) > this.getValueAt(i)) {
+               return false;
+            } else if(this.getValueAt(i) > inputVal.getValueAt(i)) {
+               return true;
+            }
+         }
+      }
+      return true;
+   }
+      
+   
+   public GinormousInt add(GinormousInt inputVal) {
+      //add the number backwards to accomodate for carry values
+      //create a new string with these numbers
+      //output it backwards as a BigInt
+      if(this.biggerSmaller(inputVal) == true) {
+         GinormousInt bigger = new GinormousInt(this.reverseString());
+         GinormousInt smaller = new GinormousInt(inputVal.reverseString());
+      } else {
+         GinormousInt bigger = new GinormousInt(inputVal.reverseString());
+         GinormousInt smaller = new GinormousInt(this.reverseString());
+      }
+      return inputVal;
+      //for(int i = smaller.getLength
+   }
+}
