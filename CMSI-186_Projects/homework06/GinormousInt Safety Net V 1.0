@@ -9,35 +9,51 @@ public class GinormousInt {
    public String value = new String();
    
    public static void main(String[] args) {
-     GinormousInt tester1 = new GinormousInt("123456");
-     tester1.equals("123456");
+     GinormousInt tester1 = new GinormousInt("123456789");
+     GinormousInt tester2 = new GinormousInt("123456789");
+     GinormousInt tester3 = new GinormousInt("1");
+     GinormousInt tester4 = new GinormousInt("123920304928723");
+     GinormousInt tester5 = new GinormousInt("7");
+     GinormousInt tester6 = new GinormousInt("53902");
+     /*tester1.equals("123456");
      tester1.equals("164029");
      tester1.equals("3432");
      tester1.toString();
      tester1.getValueAt(4);
-     tester1.reverseString();
+     tester1.reverseString(); */
+     tester1.add(tester3);
+     tester1.add(tester2);
+     tester1.add(tester4);
+     tester1.add(tester5);
+     tester1.subtract(tester3);
+     tester1.subtract(tester6);
      
    }
    
    public GinormousInt(String input) {
-      value = input;
+      this.value = input;
    }
    
    public GinormousInt() {
-      value = "";
+      this.value = "";
+   }
+   
+   public void setValue(String input) { 
+      this.value = input;
+   }
+   
+   public String substring(int pos) {
+      String output = this.value.substring(pos, value.length()-1);
+      return output;
    }
    
    public int getValueAt(int pos) {
-      if(pos > value.length() || pos < 0) {
-         throw new IndexOutOfBoundsException("Your input index is not contained within the Ginormous Int");
-      }
-      String indexVal = this.value.substring(pos, pos+1);
+      String indexVal = value.substring(pos, pos+1);
       int output = Integer.parseInt(indexVal);
       if(indexVal == "-") {
          return Integer.parseInt(this.value.substring(pos+1, pos+2));
       }
       if(value.substring(0,1) != "-") {
-         System.out.println(output);
          return output;
       } else {
          System.out.println("-" + output);
@@ -51,7 +67,7 @@ public class GinormousInt {
    }
    
    public int getLength() {
-      return value.length();
+      return this.value.length();
    }
    
    public String toString() {
@@ -107,17 +123,116 @@ public class GinormousInt {
       
    
    public GinormousInt add(GinormousInt inputVal) {
-      //add the number backwards to accomodate for carry values
-      //create a new string with these numbers
-      //output it backwards as a BigInt
+      //put in a catch that stops negative numbers
+      GinormousInt bigger = new GinormousInt();
+      GinormousInt smaller = new GinormousInt();
       if(this.biggerSmaller(inputVal) == true) {
-         GinormousInt bigger = new GinormousInt(this.reverseString());
-         GinormousInt smaller = new GinormousInt(inputVal.reverseString());
+         String reverse = this.reverseString();
+         bigger.setValue(reverse);
+         smaller.setValue(inputVal.reverseString());
       } else {
-         GinormousInt bigger = new GinormousInt(inputVal.reverseString());
-         GinormousInt smaller = new GinormousInt(this.reverseString());
+         String reverse = this.reverseString();
+         bigger.setValue(inputVal.reverseString());
+         smaller.setValue(reverse);
       }
-      return inputVal;
-      //for(int i = smaller.getLength
+      String totalSum = new String();
+      int tempSum = 0;
+      boolean carry = false;
+      if(smaller.getLength() < bigger.getLength()) {
+         String easyAdd = bigger.reverseString();
+         totalSum += easyAdd.substring(0, (bigger.getLength() - smaller.getLength()));
+      }
+      for(int i = 0; i < smaller.getLength(); i++) {
+          tempSum = smaller.getValueAt(i) + bigger.getValueAt(i);
+          if(carry == true) {
+            tempSum += 1;
+          }
+          if(tempSum > 9) {
+            carry = true;
+            totalSum += (tempSum - 10);
+          } else {
+            carry = false;
+            totalSum += tempSum;
+          }
+          tempSum = 0;
+      }
+      String finalSum = new String();
+      if(carry == true) {
+         int carryVar = totalSum.length()-2;
+         int valueAtVar = Integer.parseInt(totalSum.substring(carryVar, carryVar+1)) + 1;
+         finalSum = totalSum.substring(0, carryVar) + valueAtVar + totalSum.charAt(carryVar+1);
+      } else {
+         finalSum = totalSum;
+      }
+      
+      if(smaller.getLength() == bigger.getLength()) {
+         GinormousInt swapsies = new GinormousInt(finalSum);
+         GinormousInt finalReturn = new GinormousInt(swapsies.reverseString());
+         finalReturn.toString();
+         return finalReturn;
+      } else {
+         GinormousInt finalReturn2 = new GinormousInt(finalSum);
+         finalReturn2.toString();
+         return finalReturn2;
+      }
+   }
+   
+   public GinormousInt subtract(GinormousInt inputVal) {
+      //in theory, i should just be able to multiple every number by -1
+      //and plug it into the add function, right?
+      //i'll also have to reverse the carry function
+      //might be ugly, but it's probably just easier to copy and paste this one
+      //instead of trying to subroute it back into the add function number by number
+      GinormousInt bigger = new GinormousInt();
+      GinormousInt smaller = new GinormousInt();
+      if(this.biggerSmaller(inputVal) == true) {
+         String reverse = this.reverseString();
+         bigger.setValue(reverse);
+         smaller.setValue(inputVal.reverseString());
+      } else {
+         String reverse = this.reverseString();
+         bigger.setValue(inputVal.reverseString());
+         smaller.setValue(reverse);
+      }
+      String totalSum = new String();
+      int tempSum = 0;
+      boolean carry = false;
+      if(smaller.getLength() < bigger.getLength()) {
+         String easyAdd = bigger.reverseString();
+         totalSum += easyAdd.substring(0, (bigger.getLength() - smaller.getLength()));
+      }
+      for(int i = 0; i < smaller.getLength(); i++) {
+          tempSum = bigger.getValueAt(i) - smaller.getValueAt(i);
+          if(carry == true) {
+            tempSum -= 1;
+          }
+          if(tempSum < 0) {
+            carry = true;
+            totalSum += (10 + tempSum);
+          } else {
+            carry = false;
+            totalSum += tempSum;
+          }
+          tempSum = 0;
+      }
+      String finalSum = new String();
+      if(carry == true) {
+         int carryVar = totalSum.length()-2;
+         int valueAtVar = Integer.parseInt(totalSum.substring(carryVar, carryVar+1)) + 1;
+         finalSum = totalSum.substring(0, carryVar) + valueAtVar + totalSum.charAt(carryVar+1);
+      } else {
+         finalSum = totalSum;
+      }
+      
+      if(smaller.getLength() == bigger.getLength()) {
+         GinormousInt swapsies = new GinormousInt(finalSum);
+         GinormousInt finalReturn = new GinormousInt(swapsies.reverseString());
+         finalReturn.toString();
+         return finalReturn;
+      } else {
+         GinormousInt finalReturn2 = new GinormousInt(finalSum);
+         finalReturn2.toString();
+         return finalReturn2;
+      }
    }
 }
