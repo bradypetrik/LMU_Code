@@ -1,0 +1,125 @@
+/* Brady Petrik
+   CMSI 186-02
+   homework07 - ChangeMaker
+   Last Modified: 
+   Purpose: "You make change." 
+            "...oh my god." 
+            "Yeah. Welcome to the party, pal" */
+            
+import java.util.Arrays;
+import java.util.Scanner;
+            
+public class ChangeMaker {
+
+    public static final Scanner console = new Scanner(System.in);
+    private static int moneyAmount = 0;
+
+    public static void main(String[] args) {
+        System.out.println("How many coin denominations would you like to enter?");
+        int denomNumber = console.nextInt();
+        int[] denoms = new int[denomNumber];
+        for(int i = 0; i < denomNumber; i++) {
+           int input = 0;
+           System.out.println("What is your number " + (i+1) + " coin denomination?");
+           input = console.nextInt();
+           denoms[i] = input;
+        }
+        Arrays.sort(denoms);
+        System.out.println("What is the amount, in cents, of the change you would like to make?");
+        moneyAmount = console.nextInt();
+        
+        if (args.length != 2) {
+            printUsage();
+            return;
+        }
+
+        try {
+
+            String[] denominationStrings = args[0].split(",");
+            int[] denominations = new int[denominationStrings.length];
+
+            for (int i = 0; i < denominations.length; i++) {
+                denominations[i] = Integer.parseInt(denominationStrings[i]);
+                if (denominations[i] <= 0) {
+                    System.out.println("Denominations must all be greater than zero.\n");
+                    printUsage();
+                    return;
+                }
+
+                for (int j = 0; j < i; j++) {
+                    if (denominations[j] == denominations[i]) {
+                        System.out.println("Duplicate denominations are not allowed.\n");
+                        printUsage();
+                        return;
+                    }
+                }
+            }
+
+            int amount = Integer.parseInt(args[1]);
+            if (amount < 0) {
+                System.out.println("Change cannot be made for negative amounts.\n");
+                printUsage();
+                return;
+            }
+
+
+
+            Tuple change = makeChangeWithDynamicProgramming(denominations, amount);
+            if (change.isImpossible()) {
+                System.out.println("It is impossible to make " + amount + " cents with those denominations.");
+            } else {
+                int coinTotal = change.total();
+                System.out.println(amount + " cents can be made with " + coinTotal + " coin" +
+                        getSimplePluralSuffix(coinTotal) + " as follows:");
+
+                for (int i = 0; i < denominations.length; i++) {
+                    int coinCount = change.getElement(i);
+                    System.out.println("- "  + coinCount + " " + denominations[i] + "-cent coin" +
+                            getSimplePluralSuffix(coinCount));
+                }
+            }
+        } catch (NumberFormatException nfe) {
+            System.out.println("Denominations and amount must all be integers.\n");
+            printUsage();
+        }
+        makeChangeWithDynamicProgramming(denoms, moneyAmount);
+    }
+
+    public static Tuple makeChangeWithDynamicProgramming(int[] denoms, int amount) {
+        int tableVal = denoms.length * (amount-1);
+        Tuple[] tupleArray = new Tuple[tableVal];
+        //use denominations to create a y-axis, pair it with a standard x-axis
+        //create i*j empty Tuples using a for loop (so you can reference back to them)
+        //create a table array that holds Tuples and can be referenced as table[i][j]
+        //create an i, j loop to go through the "table"
+        //within the loop, set elements of a given Tuple with given denominations
+        
+      for(int i = 0; i < denoms.length; i++) {
+         //Tuple addOut = new Tuple();
+         for(int j = 0; j < amount + 1; j++) {
+            double coinVal = j/denoms[i];           
+            if(coinVal % 1 == 0) {
+               int coinInput = (int)coinVal;
+               int[] tupleInt = {0,0,coinInput};
+               Tuple replace = new Tuple(tupleInt);
+               tupleArray[i+j] = replace;
+            }
+       }
+               //create an array of 0s and then the coinInput, then make a tuple with that array, they put it in the array
+            //if tuple works, add it to a new output tuple
+         }
+          
+        return Tuple.IMPOSSIBLE;
+    }
+
+    private static void printUsage() {
+        System.out.println("Usage: java ChangeMaker <denominations> <amount>");
+        System.out.println("  - <denominations> is a comma-separated list of denominations (no spaces)");
+        System.out.println("  - <amount> is the amount for which to make change");
+    }
+
+    private static String getSimplePluralSuffix(int count) {
+        return count == 1 ? "" : "s";
+    }
+
+}
