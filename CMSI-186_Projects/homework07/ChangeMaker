@@ -1,7 +1,7 @@
 /* Brady Petrik
    CMSI 186-02
    homework07 - ChangeMaker
-   Last Modified: 
+   Last Modified: 5/4/2017
    Purpose: "You make change." 
             "...oh my god." 
             "Yeah. Welcome to the party, pal" */
@@ -27,6 +27,7 @@ public class ChangeMaker {
         Arrays.sort(denoms);
         System.out.println("What is the amount, in cents, of the change you would like to make?");
         moneyAmount = console.nextInt();
+        makeChangeWithDynamicProgramming(denoms, moneyAmount);
         
         if (args.length != 2) {
             printUsage();
@@ -88,26 +89,39 @@ public class ChangeMaker {
     public static Tuple makeChangeWithDynamicProgramming(int[] denoms, int amount) {
         int tableVal = denoms.length * (amount-1);
         Tuple[] tupleArray = new Tuple[tableVal];
+        int totalAmount = 0;
+        Tuple totalTuple = new Tuple(denoms.length);
       for(int i = 0; i < denoms.length; i++) {
-         for(int j = 0; j < amount + 1; j++) {         
-            if(denoms[i] % j == 0 && j != 0) {
+         for(int j = 0; j < amount + 1; j++) { 
+            //this for loop goes through and assigns appropriate values to every tuple based on input denominations        
+            if(j != 0 && denoms[i] % j == 0) {
                tupleArray[i+j].setElement(i, denoms[i]/j);
+               totalAmount += denoms[i]/j;
+               totalTuple.add(tupleArray[i+j]);
             } else if(i != 0) {
                int remainderTest = denoms[i] % j;
                for(int k = i-1; k >= 0; k--) {
+                  //this loop checks to see if the remainder can be made up by any previous denominations
                   if(remainderTest % k == 0) {
                      tupleArray[i+j].setElement(i, denoms[i]/j);
                      tupleArray[i+j].setElement(k, remainderTest/k);
+                     totalAmount += ((denoms[i]/j) + (remainderTest/k));
+                     totalTuple.add(tupleArray[i+j]);
                   }
                }
-            }
+               if(totalAmount == amount) {
+                  String totalString = totalTuple.toString();
+                  System.out.println("We can make you change!");
+                  System.out.println(totalString);
+               }
+           }
+           //this is where I would put a method to sort through tuples to see if change could be made
+           //from the tuples that were created above 
          }           
       }
        
-        return Tuple.IMPOSSIBLE;
+        return totalTuple;
     }
-    
-    
 
     private static void printUsage() {
         System.out.println("Usage: java ChangeMaker <denominations> <amount>");
