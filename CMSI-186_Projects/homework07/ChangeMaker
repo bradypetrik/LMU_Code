@@ -88,29 +88,26 @@ public class ChangeMaker {
     public static Tuple makeChangeWithDynamicProgramming(int[] denoms, int amount) {
         int tableVal = denoms.length * (amount-1);
         Tuple[] tupleArray = new Tuple[tableVal];
-        //use denominations to create a y-axis, pair it with a standard x-axis
-        //create i*j empty Tuples using a for loop (so you can reference back to them)
-        //create a table array that holds Tuples and can be referenced as table[i][j]
-        //create an i, j loop to go through the "table"
-        //within the loop, set elements of a given Tuple with given denominations
-        
       for(int i = 0; i < denoms.length; i++) {
-         //Tuple addOut = new Tuple();
-         for(int j = 0; j < amount + 1; j++) {
-            double coinVal = j/denoms[i];           
-            if(coinVal % 1 == 0) {
-               int coinInput = (int)coinVal;
-               int[] tupleInt = {0,0,coinInput};
-               Tuple replace = new Tuple(tupleInt);
-               tupleArray[i+j] = replace;
+         for(int j = 0; j < amount + 1; j++) {         
+            if(denoms[i] % j == 0 && j != 0) {
+               tupleArray[i+j].setElement(i, denoms[i]/j);
+            } else if(i != 0) {
+               int remainderTest = denoms[i] % j;
+               for(int k = i-1; k >= 0; k--) {
+                  if(remainderTest % k == 0) {
+                     tupleArray[i+j].setElement(i, denoms[i]/j);
+                     tupleArray[i+j].setElement(k, remainderTest/k);
+                  }
+               }
             }
-       }
-               //create an array of 0s and then the coinInput, then make a tuple with that array, they put it in the array
-            //if tuple works, add it to a new output tuple
-         }
-          
+         }           
+      }
+       
         return Tuple.IMPOSSIBLE;
     }
+    
+    
 
     private static void printUsage() {
         System.out.println("Usage: java ChangeMaker <denominations> <amount>");
