@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class ToDecimal {
+   
+   //Have each input number be multiplied by the [input base]^n, where n is the spaces to the left minus 1
+   
+   public static final Scanner console = new Scanner(System.in);
+   
+   public static void main(String[] args) {  
+      String num = new String();
+      int base = 0;
+      int numlength = 0;
+      //convert this to args.length for num
+      System.out.println("Please input the number you would like to convert into decimal");
+      num = console.next();
+      numlength = num.length();
+      System.out.println("Please input the base that your number is currently in");
+      base = console.nextInt();
+      convertToDecimal(num, numlength, base);     
+   }
+   
+   public static int convertToDecimal(String num, int numlength, int base) {
+      int temp = 0;
+      int total = 0;
+      String s = new String();
+      int power = 0;
+      int multiplier = (int)Math.pow(5,0);
+      for(int i = num.length(); i > 0; i--) {
+         char c = num.charAt(i-1);
+         s = Character.toString(c);
+         temp = Integer.parseInt(s);
+         multiplier = (int)Math.pow(base, power);
+         total += temp*multiplier;
+         power++;
+      }
+      System.out.println(total);
+      return total;
+   }
+}
