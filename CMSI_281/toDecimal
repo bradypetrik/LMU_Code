@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.*;
 
 public class ToDecimal {
    
@@ -6,17 +7,27 @@ public class ToDecimal {
    
    public static final Scanner console = new Scanner(System.in);
    
-   public static void main(String[] args) {  
+   public static void main(String[] args) { 
+      //args[0] is the base 
       String num = new String();
       int base = 0;
       int numlength = 0;
-      //convert this to args.length for num
       System.out.println("Please input the number you would like to convert into decimal");
-      num = console.next();
+      num = ditchBrackets(console.next(), base);
       numlength = num.length();
-      System.out.println("Please input the base that your number is currently in");
-      base = console.nextInt();
-      convertToDecimal(num, numlength, base);     
+      if(args.length == 0) {
+         System.out.println("Please input the base that your number is currently in");
+         base = console.nextInt();
+      } else {
+         base = Integer.parseInt(args[0]);
+      }
+      baseTester(base);
+      if(String.valueOf(base).length() == 1) {
+         convertToDecimal(num, numlength, base); 
+      }
+      //if a numer has double digits, isolate it, perform the math in a different way, then add it back to the total
+      //how do i determine double digits?
+      //bring the unaltered string into convertToDecimal, then parse it, then deal with double digits 
    }
    
    public static int convertToDecimal(String num, int numlength, int base) {
@@ -33,7 +44,29 @@ public class ToDecimal {
          total += temp*multiplier;
          power++;
       }
-      System.out.println(total);
+      System.out.println("The number " + num + " in base " + base + " equals " + total + " in base 10");
       return total;
+   }
+   
+   public static String ditchBrackets(String input, int base) {
+      String numero = new String();
+      String tempString = new String();
+      for(int i = 0; i < input.length(); i++) {
+         tempString = input.substring(i, i+1);
+         if(tempString.equals("1") || tempString.equals("2") || tempString.equals("3") || tempString.equals("4") || tempString.equals("5") ||
+               tempString.equals("6") || tempString.equals("7") || tempString.equals("8") || tempString.equals("9") || tempString.equals("0")) {
+            numero += tempString;
+         } else if (!tempString.equals("[") && !tempString.equals("]")) {
+            throw new IllegalArgumentException("Please input valid numerical values for your original number");
+         }
+      }
+      return numero;
+   }
+   
+   public static void baseTester(int base) {
+      if(base != 1 && base != 2 && base != 3 && base != 4 && base != 5 &&
+               base != 6 && base != 7 && base != 8 && base != 9) {
+         throw new IllegalArgumentException("Please input a valid numerical value for your base");
+      }
    }
 }
