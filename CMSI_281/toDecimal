@@ -1,19 +1,23 @@
+/* Brady Petrik
+   CMSI 281
+   ToDecimal
+   Last Modified: 10/5/17 
+   Purpose:  Convert a number to base 10 from any base*/
+
 import java.util.*;
 import java.lang.*;
 
 public class ToDecimal {
    
-   //Have each input number be multiplied by the [input base]^n, where n is the spaces to the left minus 1
-   
    public static final Scanner console = new Scanner(System.in);
    
    public static void main(String[] args) { 
-      //args[0] is the base 
       String num = new String();
       int base = 0;
       int numlength = 0;
+      String newNum = new String();
       System.out.println("Please input the number you would like to convert into decimal");
-      num = ditchBrackets(console.next(), base);
+      num = console.next();
       numlength = num.length();
       if(args.length == 0) {
          System.out.println("Please input the base that your number is currently in");
@@ -22,20 +26,17 @@ public class ToDecimal {
          base = Integer.parseInt(args[0]);
       }
       baseTester(base);
-      if(String.valueOf(base).length() == 1) {
-         convertToDecimal(num, numlength, base); 
-      }
-      //if a numer has double digits, isolate it, perform the math in a different way, then add it back to the total
-      //how do i determine double digits?
-      //bring the unaltered string into convertToDecimal, then parse it, then deal with double digits 
+      newNum = ditchBrackets(num, base);
+      convertToDecimal(newNum, numlength, base); 
    }
    
    public static int convertToDecimal(String num, int numlength, int base) {
+      
       int temp = 0;
       int total = 0;
       String s = new String();
       int power = 0;
-      int multiplier = (int)Math.pow(5,0);
+      int multiplier = 0;
       for(int i = num.length(); i > 0; i--) {
          char c = num.charAt(i-1);
          s = Character.toString(c);
@@ -64,9 +65,18 @@ public class ToDecimal {
    }
    
    public static void baseTester(int base) {
-      if(base != 1 && base != 2 && base != 3 && base != 4 && base != 5 &&
-               base != 6 && base != 7 && base != 8 && base != 9) {
-         throw new IllegalArgumentException("Please input a valid numerical value for your base");
+      if(base == 0) {
+         throw new IllegalArgumentException("Please input valid numerical values for your base");
+      }
+      String baseString = Integer.toString(base);
+      String temp = new String();
+      for(int i = 0; i < String.valueOf(base).length(); i++) {
+         temp = baseString.substring(i,i+1);
+         if(!temp.equals("0") && !temp.equals("1") && !temp.equals("2") && !temp.equals("3") &&
+            !temp.equals("4") && !temp.equals("5") && !temp.equals("6") && !temp.equals("7") &&
+            !temp.equals("8") && !temp.equals("9")) {
+            throw new IllegalArgumentException("Please input valid numerical values for your base");
+         }
       }
    }
 }
