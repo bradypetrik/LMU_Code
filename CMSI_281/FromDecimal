@@ -1,0 +1,84 @@
+/* Brady Petrik
+   CMSI 281
+   FromDecimal
+   Last Modified: 10/12/17 
+   Purpose:  Convert a number to any base from base 10*/
+
+import java.util.*;
+
+public class FromDecimal {
+
+   public static final Scanner console = new Scanner(System.in);
+   
+   public static void main(String[] args) {
+      String num = new String();
+      int base = 0;
+      String newNum = new String();
+      System.out.println("Please input the number you would like to convert from decimal");
+      num = console.next();
+      if(args.length == 0) {
+         System.out.println("Please input the base that you would like to convert your number to");
+         base = console.nextInt();
+      } else {
+         base = Integer.parseInt(args[0]);
+      }
+      baseTester(base);
+      newNum = ditchBrackets(num, base);
+      convertToBase(newNum, base);
+   }
+   
+   public static int convertToBase(String num, int base) {
+      String finalReturn = new String();
+      int temp = 0;
+      int hold = 0;
+      int lastNum = 0;
+      int useNum = Integer.parseInt(num);
+      int power = num.length();
+      int multiplier = 0;
+      for(int i = 0; i < num.length(); i++) {
+         multiplier = (int)Math.pow(base, power);
+         temp = useNum % multiplier;
+         hold = (int)useNum / multiplier;
+         finalReturn += Integer.toString(hold);
+         power--;
+         useNum = temp;
+         if(i == num.length()-1) {
+            finalReturn += Integer.toString(useNum);
+         }
+      }
+      lastNum = Integer.parseInt(finalReturn);
+      System.out.println("That number " + num + " in base 10 is " + lastNum + " in base " + base);
+      return lastNum;
+   }
+   
+   public static String ditchBrackets(String input, int base) {
+      String numero = new String();
+      String tempString = new String();
+      for(int i = 0; i < input.length(); i++) {
+         tempString = input.substring(i, i+1);
+         if(tempString.equals("1") || tempString.equals("2") || tempString.equals("3") || tempString.equals("4") || tempString.equals("5") ||
+               tempString.equals("6") || tempString.equals("7") || tempString.equals("8") || tempString.equals("9") || tempString.equals("0")) {
+            numero += tempString;
+         } else if (!tempString.equals("[") && !tempString.equals("]")) {
+            throw new IllegalArgumentException("Please input valid numerical values for your original number");
+         }
+      }
+      return numero;
+   }
+   
+   public static void baseTester(int base) {
+      if(base == 0) {
+         throw new IllegalArgumentException("Please input valid numerical values for your base");
+      }
+      String baseString = Integer.toString(base);
+      String temp = new String();
+      for(int i = 0; i < String.valueOf(base).length(); i++) {
+         temp = baseString.substring(i,i+1);
+         if(!temp.equals("0") && !temp.equals("1") && !temp.equals("2") && !temp.equals("3") &&
+            !temp.equals("4") && !temp.equals("5") && !temp.equals("6") && !temp.equals("7") &&
+            !temp.equals("8") && !temp.equals("9")) {
+            throw new IllegalArgumentException("Please input valid numerical values for your base");
+         }
+      }
+   }
+}
