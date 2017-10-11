@@ -9,7 +9,7 @@ import java.util.*;
 public class FromDecimal {
 
    public static final Scanner console = new Scanner(System.in);
-   
+   //work on dropping 0 from beginning of large numbers
    public static void main(String[] args) {
       String num = new String();
       int base = 0;
@@ -27,11 +27,10 @@ public class FromDecimal {
       convertToBase(newNum, base);
    }
    
-   public static int convertToBase(String num, int base) {
+   public static String convertToBase(String num, int base) {
       String finalReturn = new String();
       int temp = 0;
       int hold = 0;
-      int lastNum = 0;
       int useNum = Integer.parseInt(num);
       int power = num.length();
       int multiplier = 0;
@@ -39,16 +38,17 @@ public class FromDecimal {
          multiplier = (int)Math.pow(base, power);
          temp = useNum % multiplier;
          hold = (int)useNum / multiplier;
-         finalReturn += Integer.toString(hold);
+         if(i != 0 && hold != 0) {
+            finalReturn += "[" + Integer.toString(hold) + "]";
+         }
          power--;
          useNum = temp;
          if(i == num.length()-1) {
-            finalReturn += Integer.toString(useNum);
+            finalReturn += "[" + Integer.toString(useNum) + "]";
          }
       }
-      lastNum = Integer.parseInt(finalReturn);
-      System.out.println("That number " + num + " in base 10 is " + lastNum + " in base " + base);
-      return lastNum;
+      System.out.println("That number " + num + " in base 10 is " +finalReturn + " in base " + base);
+      return finalReturn;
    }
    
    public static String ditchBrackets(String input, int base) {
