@@ -38,7 +38,9 @@ public class FromDecimal {
          multiplier = (int)Math.pow(base, power);
          temp = useNum % multiplier;
          hold = (int)useNum / multiplier;
-         if(i != 0 && hold != 0) {
+         if(hold != 0) {
+            finalReturn += "[" + Integer.toString(hold) + "]";
+         } else if(i != 0) {
             finalReturn += "[" + Integer.toString(hold) + "]";
          }
          power--;
