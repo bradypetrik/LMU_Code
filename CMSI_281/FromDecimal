@@ -9,7 +9,7 @@ import java.util.*;
 public class FromDecimal {
 
    public static final Scanner console = new Scanner(System.in);
-   //work on dropping 0 from beginning of large numbers
+
    public static void main(String[] args) {
       String num = new String();
       int base = 0;
@@ -49,7 +49,7 @@ public class FromDecimal {
             finalReturn += "[" + Integer.toString(useNum) + "]";
          }
       }
-      System.out.println("That number " + num + " in base 10 is " +finalReturn + " in base " + base);
+      System.out.println(finalReturn);
       return finalReturn;
    }
    
