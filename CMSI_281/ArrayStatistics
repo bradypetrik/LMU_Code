@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class ArrayStatistics {
+
+   public static final Scanner console = new Scanner(new File("datafile"));
+
+   public static void main(String[] args) {
+      int num = 0;
+      double mean = 0;
+      String save = new String();
+      ArrayList <Integer> list = new ArrayList <Integer> ();
+      while(console.hasNext()) {
+         System.out.println("Please input your next number.");
+         num = console.nextInt();
+         list.add(num);
+         mean = mean(list);
+         standardDev(list, mean);
+      }
+   }
+   
+   public static double mean(ArrayList <Integer> list) {
+      double total = 0;
+      for(int i : list) {
+         total += i;
+      }
+      double mean = total / (list.size());
+      System.out.println(mean);
+      return mean;
+   }
+   
+   public static double standardDev(ArrayList <Integer> list, double mean) {
+      double total = 0;
+      double temp = 0;
+      double pow = 0;
+      for(int i : list) {
+         temp = (i - mean);
+         pow = Math.pow(temp, 2);
+         total += pow;
+      }
+      double standardDev = total / (list.size());
+      System.out.println(standardDev);
+      return standardDev;
+   }
+}
+      
