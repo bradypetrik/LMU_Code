@@ -55,10 +55,9 @@ public class StringList implements java.util.Collection {
 
     /** Removes all of the elements from this collection. */
     public void clear () {
-      for(int i = 0; i < list.size(); i++) {
+      for(int i = list.size()-1; i >=0; i--) {
          list.remove(i);
       }
-             
     }
  
 
@@ -83,7 +82,7 @@ public class StringList implements java.util.Collection {
       int tally = 0;
       for(int i = 0; i < list.size(); i++) {
          for(int j = 0; j < c.size(); j++) {
-            if(list.get(i).equals(it.next())) {
+            if(list.get(i)==it.next()) {
                tally++;
                break;
             }
@@ -97,12 +96,12 @@ public class StringList implements java.util.Collection {
     public boolean equals ( Object obj ) {
       if(obj instanceof String) {
          for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).equals(obj.toString())) {
+            if(list.get(i)==obj.toString()) {
                return true;
             }
          }
       }
-      return false;
+      return false;    
     }
  
 
@@ -131,13 +130,16 @@ public class StringList implements java.util.Collection {
          public int currentIndex = 0;
          
          public boolean hasNext() {
-            return list.size() < currentIndex;
+            return list.size() > currentIndex;
          }
          
          public String next() {
-            int temp = currentIndex;
-            currentIndex++;
-            return list.get(temp);
+            if(this.hasNext()==true) {
+               int temp = currentIndex;
+               currentIndex++;
+               return list.get(temp);
+            }
+            return null;
          }
          
          public void remove() {
@@ -254,7 +256,7 @@ public class StringList implements java.util.Collection {
       int tally = 0;
       for(int i = 0; i < list.size(); i++) {
          for(int j = i+1; j < list.size(); j++) {
-            if(list.get(i).equals(list.get(j))) {
+            if(list.get(i)==list.get(j)) {
                tally++;
             }
          }
@@ -290,8 +292,170 @@ public class StringList implements java.util.Collection {
     
     /** This main method is YOUR comprehensive test program for class StringList. */
     public static void main ( String[] args ) {
-        /* REPLACE THIS COMMENT AND THE FOLLOWING LINE WITH YOUR CODE */
-        throw new UnsupportedOperationException();
+      testConstructors();
+      testAdd();
+      testAddAll();
+      testClear();
+      testContains();
+      testContainsAll();
+      testEquals();
+      
     }
     
+    /** This methods tests both constructors along with the sizeWithDuplicates method */
+    public static void testConstructors() {
+      System.out.println("testConstructors: 3 tests");
+      String[] alfa = new String[5];
+      String[] bravo = new String[0];
+      StringList test1 = new StringList();
+      if(test1.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      StringList test2 = new StringList(alfa);
+      if(test2.sizeWithDuplicates()==5) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList(bravo);
+      if(test3.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the add method */
+   public static void testAdd() {
+      System.out.println("testAdd: 3 tests");
+      String[] alfa = new String[5];
+      StringList test1 = new StringList(alfa);
+      test1.add("Word");
+      if(test1.sizeWithDuplicates()==6) {
+         System.out.println("Yes");
+      }
+      String[] bravo = new String[5];
+      StringList test2 = new StringList(bravo);
+      test2.add(12);
+      if(test2.sizeWithDuplicates()==5) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      test3.add("Word");
+      if(test3.sizeWithDuplicates()==1) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the addAll method */
+   public static void testAddAll() {
+      System.out.println("testAddAll: 3 tests");
+      String[] alfa = {"a","b","c"};
+      String[] bravo = new String[3];
+      StringList test1 = new StringList(alfa);
+      StringList test2 = new StringList(bravo);
+      test2.addAll(test1);
+      if(test2.sizeWithDuplicates()==6) {
+         System.out.println("Yes");
+      }
+      String[] charlie = new String[0];
+      StringList test3 = new StringList(charlie);
+      StringList test4 = new StringList(charlie);
+      test3.addAll(test4);
+      if(test3.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      StringList test5 = new StringList(bravo);
+      StringList test6 = new StringList(charlie);
+      test5.addAll(test6);
+      if(test5.sizeWithDuplicates()==3) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the clear method */
+   public static void testClear() {
+      System.out.println("testClear: 4 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      test1.clear();
+      if(test1.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      String[] bravo = new String[0];
+      StringList test2 = new StringList(bravo);
+      test2.clear();
+      if(test2.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      test3.clear();
+      if(test3.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      String[] charlie = new String[1000];
+      StringList test4 = new StringList(charlie);
+      test4.clear();
+      if(test4.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the contains method */
+   public static void testContains() {
+      System.out.println("testContains: 3 tests");
+      StringList test1 = new StringList();
+      if(test1.contains("a")==false) {
+         System.out.println("Yes");
+      }
+      String[] alfa = {"a","b","c"};
+      StringList test2 = new StringList(alfa);
+      if(test2.contains("a")==true) {
+         System.out.println("Yes");
+      }
+      if(test2.contains("d")==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the containsAll method along with the iterator method via containsAll*/
+   public static void testContainsAll() {
+      System.out.println("testContainsAll: 5 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      StringList test2 = new StringList(alfa);
+      if(test1.containsAll(test2)==true) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      if(test3.containsAll(test2)==false) {
+         System.out.println("Yes");
+      }
+      if(test2.containsAll(test3)==true) {
+         System.out.println("Yes");
+      }
+      String[] bravo = {"d","e","f"};
+      StringList test4 = new StringList(bravo);
+      if(test1.containsAll(test4)==false) {
+         System.out.println("Yes");
+      }
+      String[] charlie = {"a","a","b","b","c","c"};
+      StringList test5 = new StringList(charlie);
+      if(test1.containsAll(test5)==true) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the equals method */
+   public static void testEquals() {
+      System.out.println("testEquals: ");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      StringList test2 = new StringList(alfa);
+      if(test1.equals(test2)==true) {
+         System.out.println("Yes");
+      }
+   }
 }
