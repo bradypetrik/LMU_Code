@@ -93,16 +93,16 @@ public class StringList implements java.util.Collection {
 
 
     /** Compares the specified object with this Collection for equality, duplicates included. */
-    public boolean equals ( Object obj ) {
-      if(obj instanceof String) {
-         for(int i = 0; i < list.size(); i++) {
-            if(list.get(i)==obj.toString()) {
-               return true;
-            }
+    public boolean equals ( java.util.Collection obj ) {
+      Iterator it = obj.iterator();
+      int tally = 0;
+      for(int i = 0; i < list.size(); i++) {
+         if(list.get(i)==it.next()) {
+            tally++;
          }
       }
-      return false;    
-    }
+      return (tally==list.size());
+   }
  
 
     /** This method is inherited intact from the superclass. */
@@ -174,7 +174,7 @@ public class StringList implements java.util.Collection {
       boolean tally = false;
       for(int i = 0; i < c.size(); i++) {
          for(int j = 0; j < list.size(); j++) {
-            if(list.get(j).equals(index[i].toString())) {
+            if(list.get(j)==index[i].toString()) {
                list.remove(j);
                tally = true;
                j = 0;
@@ -287,19 +287,6 @@ public class StringList implements java.util.Collection {
     public String toString () {
         /* YOU SHOULD NOT CHANGE THIS METHOD. */
         return super.toString();
-    }
-
-    
-    /** This main method is YOUR comprehensive test program for class StringList. */
-    public static void main ( String[] args ) {
-      testConstructors();
-      testAdd();
-      testAddAll();
-      testClear();
-      testContains();
-      testContainsAll();
-      testEquals();
-      
     }
     
     /** This methods tests both constructors along with the sizeWithDuplicates method */
@@ -450,12 +437,107 @@ public class StringList implements java.util.Collection {
    
    /** This method tests the equals method */
    public static void testEquals() {
-      System.out.println("testEquals: ");
+      System.out.println("testEquals: 7 tests");
       String[] alfa = {"a","b","c"};
       StringList test1 = new StringList(alfa);
+      if(test1.equals(test1)==true) {
+         System.out.println("Yes");
+      }
       StringList test2 = new StringList(alfa);
       if(test1.equals(test2)==true) {
          System.out.println("Yes");
       }
+      String[] bravo = new String[3];
+      StringList test3 = new StringList(bravo);
+      if(test1.equals(test3)==false) {
+         System.out.println("Yes");
+      }
+      StringList test4 = new StringList();
+      if(test1.equals(test4)==false) {
+         System.out.println("Yes");
+      }
+      StringList test5 = new StringList();
+      if(test4.equals(test5)==true) {
+         System.out.println("Yes");
+      }
+      String[] charlie = {"a","b","c"};
+      StringList test6 = new StringList(charlie);
+      if(test1.equals(test6)==true) {
+         System.out.println("Yes");
+      }
+      String[] delta = {"d","e","f"};
+      StringList test7 = new StringList(delta);
+      if(test1.equals(test7)==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
    }
+   
+   /** This method tests the isEmpty method */
+   public static void testIsEmpty() {
+      System.out.println("testIsEmpty: 3 tests");
+      StringList test1 = new StringList();
+      if(test1.isEmpty()==true) {
+         System.out.println("Yes");
+      }
+      String[] alfa = new String[5];
+      StringList test2 = new StringList(alfa);
+      if(test2.isEmpty()==false) {
+         System.out.println("Yes");
+      }
+      String[] bravo = new String[0];
+      StringList test3 = new StringList(bravo);
+      if(test3.isEmpty()==true) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the remove method */
+   public static void testRemove() {
+      System.out.println("testRemove: 5 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      if(test1.remove("a")==true) {
+         System.out.println("Yes");
+      }
+      if(test1.remove("v")==false) {
+         System.out.println("Yes");
+      }
+      if(test1.remove(" ")==false) {
+         System.out.println("Yes");
+      }
+      StringList test2 = new StringList();
+      if(test2.remove("a")==false) {
+         System.out.println("Yes");
+      }
+      if(test2.remove(" ")==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the removeAll method */
+   public static void testRemoveAll() {
+      System.out.println("testRemoveAll: ");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      StringList test2 = new StringList(alfa);
+      
+   }
+   
+   /** This main method is YOUR comprehensive test program for class StringList. */
+    public static void main ( String[] args ) {
+      testConstructors();
+      testAdd();
+      testAddAll();
+      testClear();
+      testContains();
+      testContainsAll();
+      testEquals();
+      testIsEmpty();
+      testRemove();
+      testRemoveAll();
+      
+    }
 }
