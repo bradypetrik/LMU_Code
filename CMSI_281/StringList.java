@@ -1,3 +1,9 @@
+/**Brady Petrik
+   CMSI 281
+   FromDecimal
+   Last Modified: 10/12/17 
+   Purpose:  Convert a number to any base from base 10 */
+
 /** An object of this class represents a StringList, i.e., an alphabetically-ordered Collection
     of Java Strings, with duplicates permitted. Be sure to read the Java documentation on
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html">interface java.util.Collection</a>.
@@ -7,6 +13,13 @@ import java.util.*;
 
 public class StringList implements java.util.Collection {
     
+    /** Used an ArrayList of Strings as the base because of robust functionality
+        and included methods. Eliminates minutia coding and improves runtime. */
+        
+    /** Calculations are typically brute force due to the relatively small anticipated size
+        of StringLists and the ease of calculation that brute force provides in these
+        instances. */
+        
     public ArrayList<String> list;
     
     /** Constructs an empty StringList. */
@@ -37,6 +50,7 @@ public class StringList implements java.util.Collection {
     
 
     /** Adds all of the elements of the given StringList to this one. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public boolean addAll ( java.util.Collection c  ) {
       Iterator it = c.iterator();
       if(c instanceof StringList) {
@@ -62,6 +76,7 @@ public class StringList implements java.util.Collection {
  
 
     /** Returns true if this StringList contains at least one instance of obj.toString(). */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public boolean contains ( Object obj ) {
       if(obj instanceof String) {
          for(int i = 0; i < list.size(); i++) {
@@ -77,6 +92,7 @@ public class StringList implements java.util.Collection {
     /** Returns true if this StringList contains at least one instance of each element's toString()
         value in the specified list. Multiple copies of some element in the argument do not
         require multiple copies in this StringList. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public boolean containsAll ( java.util.Collection c ) {
       Iterator it = c.iterator();
       int tally = 0;
@@ -93,6 +109,7 @@ public class StringList implements java.util.Collection {
 
 
     /** Compares the specified object with this Collection for equality, duplicates included. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public boolean equals ( java.util.Collection obj ) {
       Iterator it = obj.iterator();
       int tally = 0;
@@ -156,7 +173,7 @@ public class StringList implements java.util.Collection {
       boolean tally = false;
       if(obj instanceof String) { 
          for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).equals(obj.toString())) {
+            if(list.get(i)==obj.toString()) {
              list.remove(i);
              tally = true;
              i = 0;
@@ -169,17 +186,18 @@ public class StringList implements java.util.Collection {
 
     /** Removes all of this collection's strings that are also contained
         in the specified collection. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public boolean removeAll ( java.util.Collection c ) {
-      Object[] index = c.toArray();
+      Iterator it = c.iterator();
       boolean tally = false;
       for(int i = 0; i < c.size(); i++) {
-         for(int j = 0; j < list.size(); j++) {
-            if(list.get(j)==index[i].toString()) {
+         for(int j = list.size()-1; j >= 0; j--) {
+            if(list.get(j)==it.next()) {
                list.remove(j);
                tally = true;
-               j = 0;
             }
          }
+         it.next();
       }
       return tally;
     }
@@ -188,22 +206,23 @@ public class StringList implements java.util.Collection {
 	/** Retains only the strings in this collection that are contained in the specified collection.
 		 In other words, removes from this collection all of its elements that are NOT contained
 		 in the specified collection. */
+   /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
 	public boolean retainAll ( java.util.Collection c ) {
-      Object[] index = c.toArray();
+      Iterator it = c.iterator();
       boolean tally = false;
       int count = 0;
-      for(int i = 0; i < list.size(); i++) {
-         for(int j = 0; j < c.size(); j++) {
-            if(list.get(i).equals(index[j].toString())) {
+      for(int i = list.size()-1; i >= 0; i--) {
+         for(int j = 0; j <= c.size(); j++) {
+            if(list.get(i)==it.next()) {
                count++;
+               tally = true;
             }
          }
-         if(count > 0) {
-            list.remove(i);
-            count = 0;
-            i = 0;
-            tally = true;
+         it.next();
+         if(count < 1) {
+            list.remove(i); 
          }
+         count = 0;
       }
       return tally;
          
@@ -212,12 +231,13 @@ public class StringList implements java.util.Collection {
 
     /** Returns a String[], that is, an array of Strings, containing all of the elements in this 
         collection, NOT including duplicates. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public String[] toArray () {
       int tally = 0;
       int trueTally = 0;
       for(int i = 0; i < list.size(); i++) {
          for(int j = i+1; j < list.size(); j++) {
-            if(list.get(i).equals(list.get(j))) {
+            if(list.get(i)==list.get(j)) {
                tally++;
             }
          }
@@ -231,7 +251,7 @@ public class StringList implements java.util.Collection {
       int index = 0;
       for(int k = 0; k < list.size(); k++) {
          for(int n = k+1; n < list.size(); n++) {
-            if(list.get(k).equals(list.get(n))) {
+            if(list.get(k)==list.get(n)) {
                newTally++;
             }
          }
@@ -239,6 +259,7 @@ public class StringList implements java.util.Collection {
             output[index] = list.get(k);
             index++;
          }
+         newTally = 0;
       }
       return output;
     }
@@ -252,6 +273,7 @@ public class StringList implements java.util.Collection {
 
 
     /** Returns a count of the strings in this list, NOT including duplicates. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public int size () {
       int tally = 0;
       for(int i = 0; i < list.size(); i++) {
@@ -272,10 +294,11 @@ public class StringList implements java.util.Collection {
     
 
     /** Returns a count of the number of copies of obj.toString() in this list. */
+    /** Brute force - allows for quick, straightforward processing of relatively small StringLists */
     public int count ( Object obj ) {
       int tally = 0;
       for(int i = 0; i < list.size(); i++) {
-         if(list.get(i).equals(obj.toString())) {
+         if(list.get(i)==obj.toString()) {
             tally++;
          }
       }
@@ -519,11 +542,146 @@ public class StringList implements java.util.Collection {
    
    /** This method tests the removeAll method */
    public static void testRemoveAll() {
-      System.out.println("testRemoveAll: ");
+      System.out.println("testRemoveAll: 4 tests");
       String[] alfa = {"a","b","c"};
       StringList test1 = new StringList(alfa);
       StringList test2 = new StringList(alfa);
-      
+      if(test1.removeAll(test2)==true) {
+         System.out.println("Yes");
+      }
+      String[] bravo = {"d","e","f"};
+      StringList test3 = new StringList(bravo);
+      if(test1.removeAll(test3)==false) {
+         System.out.println("Yes");
+      }
+      String[] charlie = {"a", "c", "d"};
+      StringList test4 = new StringList(charlie);
+      StringList test5 = new StringList();
+      if(test1.removeAll(test5)==false) {
+         System.out.println("Yes");
+      }
+      if(test4.removeAll(test3)==true) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the retainAll method */
+   public static void testRetainAll() {
+      System.out.println("testRetainAll: 4 tests");
+      String[] alfa = {"a","b","c","d","e","f"};
+      StringList test1 = new StringList(alfa);
+      String[] bravo = {"a","b","c"};
+      StringList test2 = new StringList(bravo);
+      if(test2.retainAll(test1)==true) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList(alfa);
+      StringList test4 = new StringList();
+      if(test3.retainAll(test4)==false) {
+         System.out.println("Yes");
+      }
+      StringList test5 = new StringList(alfa);
+      String[] charlie = {"f"};
+      StringList test6 = new StringList(charlie);
+      if(test5.retainAll(test6)==true) {
+         System.out.println("Yes");
+      }
+      StringList test7 = new StringList(alfa);
+      String[] delta = {"v"};
+      StringList test8 = new StringList(delta);
+      if(test7.retainAll(test8)==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the toArray method */ 
+   public static void testToArray() {
+      System.out.println("testToArray: 5 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      String[] bravo = test1.toArray();
+      if(Arrays.equals(alfa, bravo)) {
+         System.out.println("Yes");
+      }
+      String[] charlie = {"d","e","f"};
+      if(!(Arrays.equals(bravo, charlie))) {
+         System.out.println("Yes");
+      }
+      String[] delta = new String[0];
+      if(!(Arrays.equals(bravo, delta))) {
+         System.out.println("Yes");
+      }
+      String[] echo = {"a","a","b","b","c","c"};
+      if(!(Arrays.equals(bravo, echo))) {
+         System.out.println("Yes");
+      }
+      StringList test2 = new StringList(echo);
+      String[] foxtrot = test2.toArray();
+      if(Arrays.equals(foxtrot, alfa)) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the size method */
+   public static void testSize() {
+      System.out.println("testSize: 3 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      if(test1.size()==3) {
+         System.out.println("Yes");
+      }
+      String[] bravo = {"a","a","b","b","c","c"};
+      StringList test2 = new StringList(bravo);
+      if(test2.size()==3) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      if(test3.size()==0) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the sizeWithDuplicates method */
+   public static void testSizeWithDuplicates() {
+      System.out.println("testSizeWithDuplicates: 3 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      if(test1.sizeWithDuplicates()==3) {
+         System.out.println("Yes");
+      }
+      String[] bravo = {"a","a","b","b","c","c"};
+      StringList test2 = new StringList(bravo);
+      if(test2.sizeWithDuplicates()==6) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      if(test3.sizeWithDuplicates()==0) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   /** This method tests the count method */
+   public static void testCount() {
+      System.out.println("testCount: 3 tests");
+      String[] alfa = {"a","b","c"};
+      StringList test1 = new StringList(alfa);
+      if(test1.count("a")==1) {
+         System.out.println("Yes");
+      }
+      String[] bravo = {"a","a","b","b","c","c"};
+      StringList test2 = new StringList(bravo);
+      if(test2.count("b")==2) {
+         System.out.println("Yes");
+      }
+      StringList test3 = new StringList();
+      if(test3.count("a")==0) {
+         System.out.println("Yes");
+      }
    }
    
    /** This main method is YOUR comprehensive test program for class StringList. */
@@ -538,6 +696,10 @@ public class StringList implements java.util.Collection {
       testIsEmpty();
       testRemove();
       testRemoveAll();
-      
+      testRetainAll();
+      testToArray();
+      testSize();
+      testSizeWithDuplicates();
+      testCount();
     }
 }
