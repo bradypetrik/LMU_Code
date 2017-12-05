@@ -1,0 +1,185 @@
+import java.util.*;
+
+public class BinaryTree extends java.lang.Object implements java.util.Collection {
+   
+   public Node root;
+   
+   class Node {
+      private Object root;
+      private Node left;
+      private Node right;
+      
+      Node() {
+         this.root = null;
+         left = null;
+         right = null;
+      }
+      
+      Node(Object obj) {
+         this.root = obj;
+         left = null;
+         right = null;
+      }
+      
+      public void setRoot(Object obj) {
+         this.root = obj;
+      }
+      
+      public Object getRoot() {
+         return root;
+      }
+      
+      public void setLeft(Node temp) {
+         this.left = temp;
+      }
+      
+      public void setRight(Node temp) {
+         this.right = temp;
+      }
+      
+      public Node getLeft() {
+         return left;
+      }
+      
+      public Node getRight() {
+         return right;
+      }
+   }
+   
+   public BinaryTree() {
+      root = null;
+   }
+   
+   public BinaryTree(Object obj) {
+      root.setRoot(obj);
+   }
+   
+   public boolean add(Object obj) {
+      Node temp = new Node();
+      if(root.getRight()==null && root.getLeft()!=null) {
+         temp = (Node)root.getRoot();
+         root.setRoot(obj);
+         root.setRight(temp);
+         return true;
+      } else {
+         temp = (Node)root.getRoot();
+         root.setRoot(obj);
+         root.setLeft(temp);
+         return true;
+      }
+      
+   }
+   
+   public boolean addAll(java.util.Collection c) {
+      return true;
+   }
+   
+   public void clear() {
+      root.setRoot(null);
+      root.setLeft(null);
+      root.setRight(null);
+   }
+   
+   public static BinaryTree construct(Object obj, BinaryTree leftSubtree, 
+                                       BinaryTree rightSubtree) {
+      BinaryTree temp = new BinaryTree(obj);
+      temp.add(leftSubtree);
+      temp.add(rightSubtree);
+      return temp;
+   }
+   
+   public boolean contains(Object obj) {
+      return true;
+   }
+   
+   public boolean containsAll(java.util.Collection c) {
+      return true;
+   }
+   
+   public boolean equals(Object obj) {
+      return true;
+   }
+   
+   public Node getNode() {
+      return this.root;
+   }
+   
+   public int hashCode() {
+      return super.hashCode();
+   }
+   
+   public java.util.Iterator inorderIterator() {
+      throw new UnsupportedOperationException();
+   }
+   
+   public boolean isEmpty() {
+      if(root.getRoot()==null) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+   
+   public java.util.Iterator iterator() {
+      Iterator<Object> it = new Iterator<Object>() {
+         
+         public int currentIndex = 0;
+         
+         public boolean hasNext() {
+            if(root.getLeft()==null) {
+               if(root.getRight()==null) {
+                  return false;
+               }
+            }
+            return true;
+         }
+         
+         public Object next() {
+            if(currentIndex==0) {
+               currentIndex++;
+               return root.getRoot();
+            } else {
+               if(root.getLeft()!=null)
+         }
+         
+         public void remove() {
+            this.setRoot(null);
+         }
+         
+     };
+     return it;
+   }
+   
+   public boolean remove(Object obj) {
+      return true;
+   }
+   
+   public boolean removeAll(java.util.Collection c) {
+      throw new UnsupportedOperationException();
+   }
+   
+   public boolean retainAll(java.util.Collection c) {
+      throw new UnsupportedOperationException();
+   }
+   
+   public int size() {
+      return 7;
+   }
+   
+   public java.lang.Object[] toArray() {
+      throw new UnsupportedOperationException();
+   }
+   
+   public java.lang.Object[] toArray(java.lang.Object[] obj) {
+      throw new UnsupportedOperationException();
+   }
+   
+   public java.lang.String toString() {
+      throw new UnsupportedOperationException();
+   }
+   
+   public static void main(String[] args) {
+      
+   }
+}
