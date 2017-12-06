@@ -1,4 +1,5 @@
 
+
 import java.util.*;
 
 public class BinaryTree extends java.lang.Object implements java.util.Collection {
@@ -10,7 +11,10 @@ public class BinaryTree extends java.lang.Object implements java.util.Collection
    }
    
    public BinaryTree(Object obj) {
-      tree = new ArrayList<Object>(1000);
+      tree = new ArrayList<Object>(0);
+      for(int i = 0; i < 1000; i++) {
+         tree.add(null);
+      }
       tree.set(1,obj);
    }
    
@@ -32,9 +36,6 @@ public class BinaryTree extends java.lang.Object implements java.util.Collection
          }
       }
       return true;
-      //needs to push every item appropriately down on the list (either to the left or right child)
-      //needs to hold the value of whatever space is being replaced
-      //needs to push THAT value down to the appropriate space   
    }
    
    public boolean addAll(java.util.Collection c) {
@@ -65,14 +66,28 @@ public class BinaryTree extends java.lang.Object implements java.util.Collection
    }
    
    public boolean containsAll(java.util.Collection c) {
-      return true;
+      Iterator it = c.iterator();
+      int tally = 0;
+      for(int i = 0; i < tree.size(); i++) {
+         for(int j = 0; j < c.size(); j++) {
+            if(tree.get(i)==it.next()) {
+               tally++;
+               break;
+            }
+         }
+      }
+      return tally == c.size();
    }
    
-   public boolean equals(Object obj) {
-      for(int i = 1; i < tree.size(); i++) {
-         if(tree.get(i)==obj) {
-            return true;
+   public boolean equals(java.lang.Object obj) {
+      if(obj instanceof BinaryTree) {
+       int tally = 0;
+       for(int i = 1; i < tree.size(); i++) {
+            if(tree.get(i)==(BinaryTree)obj.get(i)) {
+               tally++;
+            }
          }
+         return tally==tree.size()-1;
       }
       return false;
    }
@@ -183,12 +198,112 @@ public class BinaryTree extends java.lang.Object implements java.util.Collection
    }
    
    public java.lang.String toString() {
-      throw new UnsupportedOperationException();
-      //eliminate nulls, present the numbers in some visual representation of order
-      //n[2n][2n+1], but don't show it if a number is null
+      int tally = 0;
+      int tracker = 0;
+      for(int i = 0; i < tree.size(); i++) {
+         if(tree.get(i)==null) {
+            tally++;
+         }
+      }
+      ArrayList<String> output = new ArrayList<String>(tree.size()-tally);
+      for(int j = 0; j < output.size(); j++) {
+         tracker++;
+         if(tree.get(j)!=null) {
+            output.add("(" + (String)tree.get(j));
+            j = j*2;
+         }
+         if(tree.get(j)!=null) {
+            output.add("(" + (String)tree.get(j));
+         }
+         j++;
+         if(tree.get(j)!=null) {
+            output.add("(" + (String)tree.get(j) + ")");
+         }
+         j = tracker;
+      }
+      return output.toString();
+   }
+   
+   public static void testConstructors() {
+      System.out.println("testConstructors: 3 tests");
+      BinaryTree test1 = new BinaryTree();
+      if(test1.isEmpty()==true) {
+         System.out.println("Yes");
+      }
+      BinaryTree test2 = new BinaryTree("word");
+      if(test2.isEmpty()==false) {
+         System.out.println("Yes");
+      }
+      BinaryTree test3 = new BinaryTree(7);
+      if(test3.isEmpty()==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();  
+   }
+   
+   public static void testAdd() {
+      System.out.println("testAdd: tests");
+      BinaryTree test1 = new BinaryTree();
+      test1.add("word");
+      if(test1.isEmpty()==false) {
+         System.out.println("Yes");
+      }
+      BinaryTree test2 = new BinaryTree("word");
+      test2.add("word2");
+      if(test2.size()==2) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   public static void testClear() {
+      System.out.println("testClear: 1 test");
+      BinaryTree test1 = new BinaryTree("word");
+      test1.clear();
+      if(test1.isEmpty()==true) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   public static void testContains() {
+      System.out.println("testContains: 3 tests");
+      BinaryTree test1 = new BinaryTree("word");
+      if(test1.contains("word")==true) {
+         System.out.println("Yes");
+      }
+      if(test1.contains(7)==false) {
+         System.out.println("Yes");
+      }
+      if(test1.contains("Word")==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
+   }
+   
+   public static void testEquals() {
+      System.out.println("testEquals: test");
+      BinaryTree test1 = new BinaryTree();
+      BinaryTree test2 = new BinaryTree();
+      if(test1.equals(test2)==true) {
+         System.out.println("Yes");
+      }
+      BinaryTree test3 = new BinaryTree("word");
+      BinaryTree test4 = new BinaryTree("word");
+      if(test3.equals(test4)==true) {
+         System.out.println("Yes");
+      }
+      if(test3.equals(test1)==false) {
+         System.out.println("Yes");
+      }
+      System.out.println();
    }
    
    public static void main(String[] args) {
-      
+      testConstructors();  
+      //testAdd();
+      testClear();
+      testContains();
+      testEquals();
    }
 }
