@@ -1,0 +1,72 @@
+//Brady Petrik
+import java.util.*;
+
+public class DominoSolver {
+
+   public static final Scanner console = new Scanner(System.in);
+   
+   public static void main(String[] args) {
+      int num = -1;
+      ArrayList<Integer> list = new ArrayList<Integer>();
+      for(int i = 0; i < args.length; i++) {
+         list.add(Integer.parseInt(args[i]));
+      }
+      
+      while(num != 0) {
+         System.out.println("Enter next number");
+         num = console.nextInt();
+         if(num!=0) {
+            list.add(num);
+         }
+      }
+      ArrayList<Integer> newList = fixList(list);
+      makeReward(newList);
+   }
+//eliminate doubles from input args
+
+//find biggest sum of each round
+//eliminate middle value
+//recalculate in another round until two numbers left 
+
+   public static ArrayList<Integer> fixList(ArrayList<Integer> list) {
+      ArrayList<Integer> newList = new ArrayList<Integer>();
+      int temp = list.get(0);
+      if(list.size()%2==1) {
+         throw new IllegalArgumentException("Must input valid domino values");
+      }
+      for(int i = 0; i < list.size(); i++) {
+         if(list.get(i)<0) {
+            throw new IllegalArgumentException("Must input valid domino values");
+         }
+         if(i == 0) {
+            newList.add(list.get(i));
+         }
+         if(i != 0 && list.get(i)!=temp) {
+            newList.add(list.get(i));
+            temp = list.get(i);
+         }
+      }
+      return newList;
+   } 
+     
+   public static void makeReward(ArrayList<Integer> list) {
+      int highest = 0;
+      int temp = 0;
+      int totalTally = 0;
+      int iValue = 0;
+      //nested loop to repeat until only two values left
+      while(list.size() > 2) {
+         for(int i = 0; i < list.size()-2; i++) {
+            temp = list.get(i) * list.get(i+1) * list.get(i+2);
+            if (temp > highest) {
+               highest = temp;
+               iValue = i+1;
+            }
+         }
+         list.remove(iValue);
+         totalTally += highest;
+         highest = 0;
+      }
+      System.out.println(totalTally);
+   }
+}
